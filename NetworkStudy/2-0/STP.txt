@@ -4,27 +4,42 @@
 
 
 問２
+回答
+・RP　
+Switch1-F0/2
+Switch2-F0/1
+Switch4-E0/2
+
+・DP
+Switch1-F0/1
+Switch3-E0/1,E0/2
+Switch4-E0/1
+
+・BP
+Switch2-F0/2
+
+理由
 ●ルートパスコストの計算
 Switch1-Switch2間　ポートの速度はFastEthernetの100Mbpsでパスコストは19
-Switch1-Switch3間　通信速度の遅いほうに合わせるため、ポートの速度はEthernetの10Mbpsでパスコストは2
-Switch2-Switch4間　通信速度の遅いほうに合わせるため、ポートの速度はEthernetの10Mbpsでパスコストは2
-Switch3-Switch4間　ポートの速度はEthernetの10Mbpsでパスコストは２
+Switch1-Switch3間　通信速度の遅いほうに合わせるため、ポートの速度はEthernetの10Mbpsでパスコストは100
+Switch2-Switch4間　通信速度の遅いほうに合わせるため、ポートの速度はEthernetの10Mbpsでパスコストは100
+Switch3-Switch4間　ポートの速度はEthernetの10Mbpsでパスコストは100
 
 
 ●ルートポートの選出
 ・Switch1のF0/2
-Switch1-Switch3：2
-Switch1-Switch2-Switch4-Switch3:19+2+2=23
+F0/2 Switch1-Switch3：100
+F0/1 Switch1-Switch2-Switch4-Switch3:19+100+100=219
 よってルートパスコストの値が小さい、F0/2がルートポート
 
-・Switch2のF0/2
-Switch2-Switch1-Switch3:19+2=21
-Switch2-Switch4-Switch3:2+2=4
-よってルートパスコストの値が小さい、F0/2がルートポート
+・Switch2のF0/1
+F0/1 Switch2-Switch1-Switch3:19+100=119
+F0/2 Switch2-Switch4-Switch3:100+100=200
+よってルートパスコストの値が小さい、F0/1がルートポート
 
 ・Switch4のE0/2
-Switch4-Switch3:2
-Switch4-Switch2-Switch1-Switch3:2+19+2=23
+E0/2 Switch4-Switch3:100
+E0/1 Switch4-Switch2-Switch1-Switch3:100+19+100=219
 よってルートパスコストの値が小さい、E0/2がルートポート
 
 
@@ -32,14 +47,14 @@ Switch4-Switch2-Switch1-Switch3:2+19+2=23
 ・Switch3のE0/1、E0/2
 Switch3はルートブリッジで、ルートブリッジのすべてのポートは必ず指定ポートになるため
 
-・Switch4のE0/1
-向かいのポート（Switch2のF0/2)がルートポートのため
+・Switch1のF0/1
+向かいのポート（Switch2のF0/1)がルートポートのため
 
-・Switch2のF0/1
-対向ポート（Switch1のF0/1）に何も役割が振られておらず、かつSwitch2のポートのほうがブリッジプライオリティの値が小さいため。
+・Switch4のE0/1
+対向ポート（Switch2のF0/2）に何も役割が振られておらず、かつSwitch4のポートのほうがブリッジプライオリティの値が小さいため。
 
 ●ブロッキングポートの選出
-Switch1のF0/1
+Switch2のF0/2
 ルートポート、指定ポートのどちらにも選出されなかったため。
 
 
